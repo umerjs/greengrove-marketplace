@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies and build output
 node_modules
 dist
 dist-ssr
@@ -15,6 +16,12 @@ dist-ssr
 .tanstack/**
 .nitro
 *.local
+/graphify-out/
+
+# Environment (never commit secrets; keep the examples)
+**/.env
+**/.env.*
+!**/.env.example
 
 # Wrangler / Cloudflare
 .wrangler/
