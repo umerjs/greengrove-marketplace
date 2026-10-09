@@ -14,16 +14,155 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      nurseries: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          owner_user_id: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: []
+      }
+      nursery_inventory: {
+        Row: {
+          id: string
+          nursery_id: string
+          price_per_unit: number
+          product_id: string
+          quantity_available: number
+        }
+        Insert: {
+          id?: string
+          nursery_id: string
+          price_per_unit?: number
+          product_id: string
+          quantity_available?: number
+        }
+        Update: {
+          id?: string
+          nursery_id?: string
+          price_per_unit?: number
+          product_id?: string
+          quantity_available?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nursery_inventory_nursery_id_fkey"
+            columns: ["nursery_id"]
+            isOneToOne: false
+            referencedRelation: "nurseries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nursery_inventory_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "product_catalog"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nursery_inventory_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "product_stock_summary"
+            referencedColumns: ["product_id"]
+          },
+        ]
+      }
+      product_catalog: {
+        Row: {
+          category: string
+          id: string
+          name: string
+        }
+        Insert: {
+          category: string
+          id?: string
+          name: string
+        }
+        Update: {
+          category?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      product_stock_summary: {
+        Row: {
+          category: string | null
+          name: string | null
+          nursery_count: number | null
+          product_id: string | null
+          total_quantity: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "super_admin" | "nursery_seller" | "buyer"
+      verification_status: "pending" | "verified" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +289,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["super_admin", "nursery_seller", "buyer"],
+      verification_status: ["pending", "verified", "rejected"],
+    },
   },
 } as const
