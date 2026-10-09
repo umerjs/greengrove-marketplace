@@ -91,8 +91,8 @@ function InventoryRow({
   onSaved,
 }: {
   product: { id: string; name: string; category: string };
-  row?: { id: string; quantity_available: number; price_per_unit: number };
-  nurseryId?: string;
+  row: { id: string; quantity_available: number; price_per_unit: number } | undefined;
+  nurseryId: string | undefined;
   disabled: boolean;
   onSaved: () => void;
 }) {
@@ -104,13 +104,19 @@ function InventoryRow({
     if (!nurseryId) return;
     const q = parseInt(qty, 10);
     const pr = parseFloat(price);
-    if (!(q >= 0) || !(pr >= 0)) return toast.error("Enter valid, non-negative numbers.");
+    if (!(q >= 0) || !(pr >= 0)) {
+      toast.error("Enter valid, non-negative numbers.");
+      return;
+    }
     setSaving(true);
     const { error } = row
       ? await supabase.from("nursery_inventory").update({ quantity_available: q, price_per_unit: pr }).eq("id", row.id)
       : await supabase.from("nursery_inventory").insert({ nursery_id: nurseryId, product_id: product.id, quantity_available: q, price_per_unit: pr });
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success(`${product.name} updated`);
     onSaved();
   };

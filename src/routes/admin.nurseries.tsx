@@ -41,7 +41,10 @@ function AdminNurseries() {
 
   const setStatus = async (id: string, verification_status: "verified" | "rejected") => {
     const { error } = await supabase.from("nurseries").update({ verification_status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success(`Nursery ${verification_status}`);
     qc.invalidateQueries({ queryKey: ["admin-nurseries"] });
   };
