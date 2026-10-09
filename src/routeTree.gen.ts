@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AdminNurseriesRouteImport } from './routes/admin.nurseries'
+import { Route as BuyerMarketplaceRouteImport } from './routes/buyer.marketplace'
+import { Route as SellerDashboardRouteImport } from './routes/seller.dashboard'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminNurseriesRoute = AdminNurseriesRouteImport.update({
+  id: '/admin/nurseries',
+  path: '/admin/nurseries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuyerMarketplaceRoute = BuyerMarketplaceRouteImport.update({
+  id: '/buyer/marketplace',
+  path: '/buyer/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SellerDashboardRoute = SellerDashboardRouteImport.update({
+  id: '/seller/dashboard',
+  path: '/seller/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/nurseries': typeof AdminNurseriesRoute
+  '/buyer/marketplace': typeof BuyerMarketplaceRoute
+  '/seller/dashboard': typeof SellerDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/nurseries': typeof AdminNurseriesRoute
+  '/buyer/marketplace': typeof BuyerMarketplaceRoute
+  '/seller/dashboard': typeof SellerDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/admin/nurseries': typeof AdminNurseriesRoute
+  '/buyer/marketplace': typeof BuyerMarketplaceRoute
+  '/seller/dashboard': typeof SellerDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/admin/nurseries'
+    | '/buyer/marketplace'
+    | '/seller/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/admin/nurseries'
+    | '/buyer/marketplace'
+    | '/seller/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/admin/nurseries'
+    | '/buyer/marketplace'
+    | '/seller/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  AdminNurseriesRoute: typeof AdminNurseriesRoute
+  BuyerMarketplaceRoute: typeof BuyerMarketplaceRoute
+  SellerDashboardRoute: typeof SellerDashboardRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/nurseries': {
+      id: '/admin/nurseries'
+      path: '/admin/nurseries'
+      fullPath: '/admin/nurseries'
+      preLoaderRoute: typeof AdminNurseriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buyer/marketplace': {
+      id: '/buyer/marketplace'
+      path: '/buyer/marketplace'
+      fullPath: '/buyer/marketplace'
+      preLoaderRoute: typeof BuyerMarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seller/dashboard': {
+      id: '/seller/dashboard'
+      path: '/seller/dashboard'
+      fullPath: '/seller/dashboard'
+      preLoaderRoute: typeof SellerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  AdminNurseriesRoute: AdminNurseriesRoute,
+  BuyerMarketplaceRoute: BuyerMarketplaceRoute,
+  SellerDashboardRoute: SellerDashboardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
